@@ -16,6 +16,9 @@ const PORT = process.env.PORT;
 
 app.use(express.json());
 
+app.use("/api/user", userRouter);
+app.use("/api/auth", authRouter);
+
 //middleware to handle errors
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
@@ -26,9 +29,6 @@ app.use((err, req, res, next) => {
     message,
   });
 });
-
-app.use("/api/user", userRouter);
-app.use("/api/auth", authRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);

@@ -77,6 +77,7 @@ export default function SignUp() {
           <span className="text-green-500">Sign in</span>
         </Link>
       </div>
+      <p className="text-red-600">{error}</p>
     </div>
   );
 }

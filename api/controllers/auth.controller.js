@@ -37,9 +37,11 @@ async function signin(req, res, next) {
     }
     const validUser = await userModel.findOne({ email });
 
-    if (!validUser) return next(errorHandler(404, "User not found"));
+    if (!validUser) {
+      return next(errorHandler(404, "User not found"));
+    }
     const validPasword = await bcrypt.compare(password, validUser.password);
-    if (!validPasword) return next(errorHandler(401), "Wrong Credentials");
+    if (!validPasword) return next(errorHandler(401, "Wrong Credentials"));
 
     //token
     const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET, {
@@ -53,7 +55,7 @@ async function signin(req, res, next) {
         maxAge: Date.now() + 24 * 60 * 60 * 1000,
       })
       .status(200)
-      .json(restUserInfo);
+      .json({ success: true, ...restUserInfo });
   } catch (error) {
     return next(error);
   }
