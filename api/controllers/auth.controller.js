@@ -52,7 +52,7 @@ async function signin(req, res, next) {
     res
       .cookie("token", token, {
         httpOnly: true,
-        maxAge: Date.now() + 24 * 60 * 60 * 1000,
+        maxAge: 24 * 60 * 60 * 1000,
       })
       .status(200)
       .json({ success: true, ...restUserInfo });
@@ -61,7 +61,54 @@ async function signin(req, res, next) {
   }
 }
 
+//google
+
+async function google(req, res, next) {
+  try {
+    const user = await userModel.findOne({ email: req.body.email });
+    if (user) {
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+        expiresIn: "7d",
+      });
+      const { password: pass, ...restUserInfo } = user._doc;
+      res
+        .cookie("token", token, {
+          httpOnly: true,
+          maxAge: 24 * 60 * 60 * 1000,
+        })
+        .status(201)
+        .json(restUserInfo);
+    } else {
+      const generatedPassword = Math.random().toString(36).slice(-8);
+      const hashPassword = await bcrypt.hash(generatedPassword, 10);
+      const newUser = new userModel({
+        username:
+          req.body.name.replace(/\s+/g, "").toLowerCase() +
+          Math.random().toString(36).slice(-4),
+        email: req.body.email,
+        password: hashPassword,
+        avatar: req.body.photo,
+      });
+      await newUser.save();
+      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+        expiresIn: "7d",
+      });
+      const { password: pass, ...restUserInfo } = newUser._doc;
+      res
+        .cookie("token", token, {
+          httpOnly: true,
+          maxAge: 24 * 60 * 60 * 1000,
+        })
+        .status(201)
+        .json(restUserInfo);
+    }
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   signup,
   signin,
+  google,
 };
