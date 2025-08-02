@@ -7,7 +7,8 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     avatar: {
       type: String,
-      default: "https://www.flaticon.com/free-icon/user_3177440",
+      default:
+        "https://tse4.mm.bing.net/th/id/OIP.qM8NOVuRx6fQ6aZHqDl8bAHaLH?rs=1&pid=ImgDetMain&o=7&rm=3",
     },
   },
   { timestamps: true }
