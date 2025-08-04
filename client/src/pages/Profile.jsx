@@ -10,6 +10,9 @@ import {
   deleteUserFailure,
   deleteUserStart,
   deleteUserSuccess,
+  signoutUserStart,
+  signoutUserSuccess,
+  signoutUserFailure,
 } from "../../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 
@@ -152,6 +155,20 @@ export default function Profile() {
     }
   };
 
+  const handleSignout = async () => {
+    try {
+      dispatch(signoutUserStart());
+      const { data } = await axios.get(`/api/auth/signout`);
+      if (data.success === false) {
+        dispatch(signoutFailure(data.message));
+        return;
+      }
+      dispatch(signoutUserSuccess(data));
+    } catch (error) {
+      dispatch(signoutUserFailure(error.message));
+    }
+  };
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-center text-3xl font-bold my-8">Profile</h1>
@@ -214,7 +231,9 @@ export default function Profile() {
           <span className="text-red-700 cursor-pointer" onClick={handleDelete}>
             Delete Account
           </span>
-          <span className="text-red-700 cursor-pointer">Sign out</span>
+          <span className="text-red-700 cursor-pointer" onClick={handleSignout}>
+            Sign out
+          </span>
         </div>
       </form>
       <p className="text-red-700">{error ? error : ""}</p>

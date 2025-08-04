@@ -107,8 +107,18 @@ async function google(req, res, next) {
   }
 }
 
+async function signout(req, res) {
+  try {
+    res.clearCookie("token");
+    res.status(200).json("user has logged out");
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   signup,
   signin,
   google,
+  signout,
 };
