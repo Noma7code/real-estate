@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const { userRouter } = require("./routes/user.route");
 const { authRouter } = require("./routes/auth.route");
 const imageUploadRouter = require("./routes/imageUpload.route");
+const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
 mongoose
@@ -17,6 +18,7 @@ const app = express();
 const PORT = process.env.PORT;
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors());
 
 app.use("/api/user", userRouter);
