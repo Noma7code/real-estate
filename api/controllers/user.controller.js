@@ -1,6 +1,6 @@
-const { userModel } = require("../models/user.model");
 const { errorHandler } = require("../utils/error");
 const bcrypt = require("bcryptjs");
+const { userModel } = require("../models/user.model");
 
 async function updateUser(req, res, next) {
   if (req.user.id !== req.params.id)
@@ -34,6 +34,19 @@ async function updateUser(req, res, next) {
   }
 }
 
+async function deleteUser(req, res, next) {
+  if (req.user.id !== req.params.id)
+    return next(errorHandler(400, "You can only delete your own account"));
+  try {
+    await userModel.findByIdAndDelete(req.params.id);
+    res.clearCookie("token");
+    res.status(200).json("User has been deleted");
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   updateUser,
+  deleteUser,
 };
