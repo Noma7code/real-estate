@@ -30,12 +30,12 @@ export default function SignIn() {
     try {
       dispatch(signInStart());
       const { data } = await axios.post("/api/auth/signin", formData);
-      console.log(data);
       if (!data.success) {
         dispatch(signInFailure(data.message));
         return;
       }
-      dispatch(signInSuccess(data));
+      const { success, ...userData } = data;
+      dispatch(signInSuccess(userData));
       navigate("/");
     } catch (error) {
       dispatch(signInFailure(error.response?.data?.message));

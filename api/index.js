@@ -3,8 +3,9 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const { userRouter } = require("./routes/user.route");
 const { authRouter } = require("./routes/auth.route");
-const imageUploadRouter = require("./routes/imageUpload.route");
+const imageUploadRouter = require("./routes/image-upload");
 const cookieParser = require("cookie-parser");
+const { signUpload } = require("./routes/sign-upload");
 require("dotenv").config();
 
 mongoose
@@ -24,6 +25,7 @@ app.use(cors());
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/upload", imageUploadRouter);
+app.use("/api/upload", signUpload);
 
 //middleware to handle errors
 app.use((err, req, res, next) => {

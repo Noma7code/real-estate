@@ -18,7 +18,7 @@ export default function Oauth() {
         email: result.user.email,
         photo: result.user.photoURL,
       });
-      const data = res.json();
+      const data = res.data;
       dispatch(signInSuccess(data));
       navigate("/");
     } catch (error) {
