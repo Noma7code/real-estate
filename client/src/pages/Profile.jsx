@@ -15,6 +15,7 @@ import {
   signoutUserFailure,
 } from "../../redux/user/userSlice";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 export default function Profile() {
   //create a reference for file upload
@@ -227,6 +228,12 @@ export default function Profile() {
         >
           {loading ? "Loading" : "Update"}
         </button>
+        <Link
+          className="text-white uppercase bg-green-600 rounded-lg text-center p-3 hover:opacity-85"
+          to="/create-listing"
+        >
+          Creaate Listing
+        </Link>
         <div className="flex justify-between mt-5">
           <span className="text-red-700 cursor-pointer" onClick={handleDelete}>
             Delete Account
