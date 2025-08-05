@@ -232,7 +232,7 @@ export default function Profile() {
           className="text-white uppercase bg-green-600 rounded-lg text-center p-3 hover:opacity-85"
           to="/create-listing"
         >
-          Creaate Listing
+          Create Listing
         </Link>
         <div className="flex justify-between mt-5">
           <span className="text-red-700 cursor-pointer" onClick={handleDelete}>
