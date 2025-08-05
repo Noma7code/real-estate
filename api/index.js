@@ -6,6 +6,7 @@ const { authRouter } = require("./routes/auth.route");
 const imageUploadRouter = require("./routes/image-upload");
 const cookieParser = require("cookie-parser");
 const { signUpload } = require("./routes/sign-upload");
+const { listingRouter } = require("./routes/listing.route");
 require("dotenv").config();
 
 mongoose
@@ -26,6 +27,7 @@ app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/upload", imageUploadRouter);
 app.use("/api/upload", signUpload);
+app.use("/api/listing", listingRouter);
 
 //middleware to handle errors
 app.use((err, req, res, next) => {
