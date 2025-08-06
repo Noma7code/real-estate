@@ -49,10 +49,10 @@ async function updateListing(req, res, next) {
 async function getListing(req, res, next) {
   try {
     const listing = await Listing.findById(req.params.id);
-    res.status(200).json(listing);
     if (!listing) {
       return next(errorHandler(404, "Listing not found"));
     }
+    res.status(200).json(listing);
   } catch (error) {
     next(error);
   }
