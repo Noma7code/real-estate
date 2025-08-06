@@ -32,7 +32,10 @@ async function imageUpload(req, res, next) {
   const { imgUrl } = req.body;
   try {
     if (!imgUrl) return next(errorHandler(400, "imgurl is required"));
-    const result = await cloudinary.uploader.upload(imgUrl);
+    const result = await cloudinary.uploader.upload(imgUrl, {
+      quality: "auto:best",
+      fetch_format: "auto",
+    });
 
     return res.status(200).json({
       success: true,

@@ -298,15 +298,18 @@ export default function Profile() {
               className="flex justify-between rounded-lg 
             items-center p-3 m-2 shadow shadow-slate-400 gap-4"
             >
-              <Link to={`/listing/${listing._id}`}>
+              <Link to={`/lookuplisting/${listing._id}`}>
                 <img
-                  src={listing.imgUrls[0]}
+                  src={listing.imgUrls[0].replace(
+                    "/upload/",
+                    "/upload/q_auto:best,f_auto/"
+                  )}
                   alt="listing cover"
-                  className="w-40 h-20 object-contain "
+                  className="w-40 h-20 object-contain"
                 />
               </Link>
               <Link
-                to={`/listing/${listing._id}`}
+                to={`/lookuplisting/${listing._id}`}
                 className="flex-1 font-bold hover:underline truncate text-slate-700"
               >
                 <p>{listing.name}</p>
