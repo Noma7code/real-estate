@@ -34,6 +34,7 @@ export default function Profile() {
   const [showListingError, setShowListingError] = useState(false);
   const [userListings, setUserListings] = useState([]);
   const [listingToggle, setListingToggle] = useState(false);
+  const [deleteListingError, setDeleteListingError] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -186,7 +187,20 @@ export default function Profile() {
       setShowListingError(true);
     }
   };
-
+  const handleDeleteListing = async (listingId) => {
+    try {
+      setDeleteListingError(false);
+      const { data } = await axios.delete(`/api/listing/delete/${listingId}`);
+      if (data.success === false) {
+        setDeleteListingError(data.message);
+      }
+      setUserListings((prevListing) =>
+        prevListing.filter((listing) => listing._id !== listingId)
+      );
+    } catch (error) {
+      setDeleteListingError(error);
+    }
+  };
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-center text-3xl font-bold my-8">Profile</h1>
@@ -299,7 +313,12 @@ export default function Profile() {
               </Link>
 
               <div className="flex flex-col gap-2">
-                <button className="uppercase text-red-700">Delete</button>
+                <button
+                  className="uppercase text-red-700"
+                  onClick={() => handleDeleteListing(listing._id)}
+                >
+                  Delete
+                </button>
                 <button className="uppercase text-green-700">Edit</button>
               </div>
             </div>
