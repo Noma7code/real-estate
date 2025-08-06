@@ -40,7 +40,19 @@ async function updateListing(req, res, next) {
       req.body,
       { new: true }
     );
-    res.status(200).json("Listing has been updated successfully");
+    res.status(200).json(updatedListing);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function getListing(req, res, next) {
+  try {
+    const listing = await Listing.findById(req.params.id);
+    res.status(200).json(listing);
+    if (!listing) {
+      return next(errorHandler(404, "Listing not found"));
+    }
   } catch (error) {
     next(error);
   }
@@ -50,4 +62,5 @@ module.exports = {
   createListing,
   deleteListing,
   updateListing,
+  getListing,
 };
