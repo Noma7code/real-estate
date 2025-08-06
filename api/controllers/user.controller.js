@@ -60,8 +60,22 @@ async function getuserListings(req, res, next) {
   }
 }
 
+async function getUser(req, res, next) {
+  try {
+    const user = await userModel.findById(req.params.id);
+    if (!user) {
+      return next(errorHandler(404, "User not found"));
+    }
+    const { password, ...restInfo } = user._doc;
+    res.status(200).json(restInfo);
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   updateUser,
   deleteUser,
   getuserListings,
+  getUser,
 };
