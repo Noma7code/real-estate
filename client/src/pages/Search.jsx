@@ -9,6 +9,7 @@ export default function Search() {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [listings, setListings] = useState([]);
+  const [showmore, setShowmore] = useState(false);
   const [sidebardata, setSidebardata] = useState({
     searchTerm: "",
     type: "all",
@@ -52,8 +53,14 @@ export default function Search() {
 
     const fetchListing = async () => {
       setLoading(true);
+      setShowmore(false);
       const searchQuery = urlParams.toString();
       const { data } = await axios.get(`/api/listing/get?${searchQuery}`);
+      if (data.length > 8) {
+        setShowmore(true);
+      } else {
+        setShowmore(false);
+      }
       setListings(data);
       setLoading(false);
     };
@@ -106,6 +113,20 @@ export default function Search() {
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
   };
+
+  const handleShowmore = async () => {
+    const numberOfListing = listings.length;
+    const startIndex = numberOfListing;
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set("startIndex", startIndex);
+    const searchQuery = urlParams.toString();
+    const { data } = await axios.get(`/api/listing/get?${searchQuery}`);
+    if (data.length < 9) {
+      setShowmore(false);
+    }
+    setListings([...listings, ...data]);
+  };
+
   return (
     <div className="flex flex-col md:flex-row">
       {/* filter inputs */}
@@ -230,6 +251,14 @@ export default function Search() {
             listings.map((listing) => (
               <ListingItem key={listing._id} listing={listing} />
             ))}
+          {showmore && (
+            <button
+              onClick={handleShowmore}
+              className="hover:underline text-green-600 text-center w-full"
+            >
+              Show more
+            </button>
+          )}
         </div>
       </div>
     </div>
