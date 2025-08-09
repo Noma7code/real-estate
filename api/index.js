@@ -7,6 +7,7 @@ const imageUploadRouter = require("./routes/image-upload");
 const cookieParser = require("cookie-parser");
 const { signUpload } = require("./routes/sign-upload");
 const { listingRouter } = require("./routes/listing.route");
+const path = require("path");
 require("dotenv").config();
 
 mongoose
@@ -15,6 +16,8 @@ mongoose
     console.log("MongoDB connected");
   })
   .catch((err) => console.log(err));
+
+const __dirname = path.resolve();
 
 const app = express();
 const PORT = process.env.PORT;
@@ -29,6 +32,10 @@ app.use("/api/upload", imageUploadRouter);
 app.use("/api/upload", signUpload);
 app.use("/api/listing", listingRouter);
 
+app.use(express.static(path.join(__dirname, "/client/dist")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
 //middleware to handle errors
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
