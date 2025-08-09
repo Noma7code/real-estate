@@ -59,7 +59,7 @@ export default function Home() {
         </h1>
 
         <div className="text-xm text-gray-500 sm:text-sm mt-7">
-          Fancy Estate is the best place to find your next perfect place to live
+          Alpha Estate is the best place to find your next perfect place to live
           <br />
           We will help you find your home fast,easy and confortable. Our experts
           are always available

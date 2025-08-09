@@ -29,7 +29,7 @@ export default function Header() {
     <header className=" bg-amber-400  shadow-md ">
       <div className="flex justify-between items-center max-w-6xl p-4 mx-auto">
         <h1 className="text-sm sm:text-3xl font-bold flex flex-wrap">
-          <span className="text-slate-500 ">Fancy</span>
+          <span className="text-slate-500 ">Alpha</span>
           <span className="text-slate-700 ">Estates</span>
         </h1>
         <form
