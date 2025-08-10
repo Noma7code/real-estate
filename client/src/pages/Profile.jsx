@@ -33,7 +33,6 @@ export default function Profile() {
   const { currentUser, loading, error } = useSelector((state) => state.user);
   const [showListingError, setShowListingError] = useState(false);
   const [userListings, setUserListings] = useState([]);
-  const [listingToggle, setListingToggle] = useState(false);
   const [deleteListingError, setDeleteListingError] = useState(false);
 
   const dispatch = useDispatch();
